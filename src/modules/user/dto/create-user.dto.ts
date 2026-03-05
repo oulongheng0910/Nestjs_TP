@@ -1,6 +1,6 @@
 import { IsString, Matches, MinLength } from 'class-validator';
 
-export class createUserDto {
+export class CreateUserDto {
   @IsString({ message: 'ឈ្មោះត្រូវតែជាអក្សរ' })
   @MinLength(3, { message: 'ឈ្មោះត្រូវតែមានយ៉ាងហោចណាស់ 3 អក្សរ' })
   @Matches(/^[a-zA-Z0-9]+$/, { message: 'ឈ្មោះត្រូវតែមានតែអក្សរ និងលេខ' })

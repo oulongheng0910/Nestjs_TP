@@ -1,39 +1,56 @@
 import {
-  Body,
   Controller,
-  Delete,
   Get,
+  Post,
+  Body,
   Param,
   Patch,
-  Post,
+  Delete,
 } from '@nestjs/common';
-import { TaskService } from './task.service';
+import { TasksService } from './task.service';
 
 @Controller('tasks')
 export class TasksController {
-  constructor(private readonly taskService: TaskService) {}
+  constructor(private tasksService: TasksService) {}
 
-  @Get('/:id')
-  getTask(@Param('id') id: string) {
-    return this.taskService.getTask(id);
-  }
-  @Post('/')
-  createTask(@Body() body: any) {
-    return this.taskService.createTask(body);
+  @Get()
+  findAll() {
+    return this.tasksService.findAll();
   }
 
-  @Patch('/:id/done')
-  markTaskAsDone(@Body() body: any, @Param('id') id: string) {
-    return this.taskService.updateTask(id, body);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.tasksService.findOne(Number(id));
   }
 
-  @Patch('/:id/pending')
-  markTaskAsPending(@Body() body: any, @Param('id') id: string) {
-    return this.taskService.updateTask(id, body);
+  @Post()
+  create(@Body() body: any) {
+    const { userId, name, description } = body;
+    if (userId) {
+      return this.tasksService.createForUser(Number(userId), {
+        name,
+        description,
+      });
+    }
+    // Create task without user association
+    return this.tasksService.create({
+      name,
+      description,
+    });
   }
 
-  @Delete('/:id')
-  deleteTask(@Param('id') id: string) {
-    return this.taskService.deleteTask(id);
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() body: any) {
+    return this.tasksService.update(Number(id), body);
+  }
+
+  @Patch(':id/complete')
+  complete(@Param('id') id: string) {
+    return this.tasksService.markCompleted(Number(id));
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.tasksService.remove(Number(id));
   }
 }

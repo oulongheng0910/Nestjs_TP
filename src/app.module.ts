@@ -1,12 +1,22 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserModule } from './modules/user/user.module';
-import { TaskModule } from './modules/task/task.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { UsersModule } from './modules/user/user.module';
+import { TasksModule } from './modules/task/task.module';
+
+import { User } from './users/user.entity';
+import { Task } from './tasks/task.entity';
 
 @Module({
-  imports: [UserModule, TaskModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'todo.sqlite',
+      entities: [User, Task],
+      synchronize: true, // development only
+    }),
+    UsersModule,
+    TasksModule,
+  ],
 })
 export class AppModule {}

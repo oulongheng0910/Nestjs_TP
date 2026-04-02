@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ReceiptsModule } from './receipts/receipts.module';
 import { OrdersModule } from './orders/orders.module';
 import { Receipt } from 'src/database/entities/receipts.entity';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { Receipt } from 'src/database/entities/receipts.entity';
 
     ReceiptsModule,
     OrdersModule,
+    NotificationsModule,
   ],
 })
 export class AppModule {}

@@ -13,6 +13,9 @@ export class ProductService {
   findOne(id: number) {
     return this.repo.findOne({ where: { id } });
   }
+  findByCategory(categoryId: number) {
+    return this.repo.find({ where: { categoryId } });
+  }
   create(data: { name: string; price: number; categoryId: number }) {
     return this.repo.save(this.repo.create(data));
   }
